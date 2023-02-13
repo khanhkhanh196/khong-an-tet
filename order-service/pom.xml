@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>product-service</artifactId>
+    <artifactId>order-service</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -50,5 +50,6 @@
             <scope>runtime</scope>
         </dependency>
     </dependencies>
+
 
 </project>
