@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>product-service</artifactId>
+    <artifactId>discovery-server</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -38,11 +38,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
 
         <dependency>
             <groupId>io.micrometer</groupId>
@@ -50,5 +45,4 @@
             <scope>runtime</scope>
         </dependency>
     </dependencies>
-
 </project>
