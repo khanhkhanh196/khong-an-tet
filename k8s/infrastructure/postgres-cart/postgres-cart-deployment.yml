@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: postgres-cart
+  name: postgres-cart
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-cart
+  template:
+    metadata:
+      labels:
+        app: postgres-cart
+    spec:
+      containers:
+        - env:
+            - name: PGDATA
+              value: /data/postgres
+            - name: POSTGRES_DB
+              value: cart-service
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_USER
+              value: postgres
+          image: postgres
+          name: postgres-cart
+          ports:
+            - containerPort: 5432
+          resources: {}
+          volumeMounts:
+            - mountPath: /data/postgres
+              name: postgres-cart-claim0
+      restartPolicy: Always
+      volumes:
+        - name: postgres-cart-claim0
+          persistentVolumeClaim:
+            claimName: postgres-cart-claim0
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: postgres-cart
+  name: postgres-cart
+spec:
+  ports:
+    - name: "5432"
+      port: 5432
+      targetPort: 5432
+  selector:
+    app: postgres-cart
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: postgres-cart-claim0
+  name: postgres-cart-claim0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
