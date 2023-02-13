@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/order")
 public class OrderController {
-    @GetMapping
+    @GetMapping("/test")
     @ResponseStatus(HttpStatus.OK)
     public String getStatus() {
         return "Order alive";
