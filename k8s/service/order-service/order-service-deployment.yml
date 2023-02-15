@@ -24,6 +24,7 @@ spec:
               value: docker
           image: order-service:latest
           name: order-service
+          imagePullPolicy: Never
           resources: {}
       restartPolicy: Always
 status: {}

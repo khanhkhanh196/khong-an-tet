@@ -24,6 +24,7 @@ spec:
               value: docker
           image: cart-service:latest
           name: cart-service
+          imagePullPolicy: Never
           resources: {}
       restartPolicy: Always
 status: {}

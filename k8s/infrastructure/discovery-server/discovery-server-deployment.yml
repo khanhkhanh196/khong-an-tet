@@ -22,6 +22,7 @@ spec:
               value: docker
           image: discovery-server:latest
           name: discovery-server
+          imagePullPolicy: Never
           ports:
             - containerPort: 8761
           resources: {}

@@ -36,19 +36,21 @@ spec:
               value: admin
             - name: KEYCLOAK_ADMIN_PASSWORD
               value: admin
+            - name: KEYCLOAK_IMPORT
+              value: /import/realm.json
           image: quay.io/keycloak/keycloak:18.0.0
           name: keycloak
           ports:
             - containerPort: 8080
           resources: {}
           volumeMounts:
-            - mountPath: /opt/keycloak/data/import/
-              name: keycloak-claim0
+            - mountPath: /import
+              name: keycloak-volume
       restartPolicy: Always
       volumes:
-        - name: keycloak-claim0
-          persistentVolumeClaim:
-            claimName: keycloak-claim0
+        - name: keycloak-volume
+          configMap:
+            name: keycloak-configmap
 status: {}
 ---
 apiVersion: v1
@@ -67,21 +69,6 @@ spec:
 status:
   loadBalancer: {}
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  creationTimestamp: null
-  labels:
-    app: keycloak-claim0
-  name: keycloak-claim0
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Mi
-status: {}
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -98,3 +85,19 @@ spec:
                 name: keycloak
                 port:
                   number: 8080
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  creationTimestamp: null
+#  labels:
+#    app: keycloak-claim0
+#  name: keycloak-claim0
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: 100Mi
+#status: {}
+

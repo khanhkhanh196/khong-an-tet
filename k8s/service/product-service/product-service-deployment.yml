@@ -22,6 +22,7 @@ spec:
               value: docker
           image: product-service:latest
           name: product-service
+          imagePullPolicy: Never
           resources: {}
       restartPolicy: Always
 status: {}
