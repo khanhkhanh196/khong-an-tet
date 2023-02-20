@@ -49,8 +49,7 @@ spec:
       restartPolicy: Always
       volumes:
         - name: keycloak-volume
-          configMap:
-            name: keycloak-configmap
+    
 status: {}
 ---
 apiVersion: v1
