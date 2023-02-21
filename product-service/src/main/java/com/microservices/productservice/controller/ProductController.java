@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/product")
 public class ProductController {
-    @GetMapping("/test")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String getStatus() {
         return "Product alive";

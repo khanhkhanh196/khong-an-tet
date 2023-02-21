@@ -26,7 +26,7 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
-#            - containerPort: 8181
+            - containerPort: 8181
           resources: {}
       restartPolicy: Always
 status: {}
@@ -38,6 +38,7 @@ metadata:
     app: api-gateway
   name: api-gateway
 spec:
+  type: LoadBalancer
   ports:
     - name: "8181"
       port: 8181
