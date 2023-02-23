@@ -23,9 +23,9 @@ spec:
               value: docker
           image: api-gateway:latest
           name: api-gateway
+          imagePullPolicy: Never
           ports:
             - containerPort: 8080
-            - containerPort: 8181
           resources: {}
       restartPolicy: Always
 status: {}
