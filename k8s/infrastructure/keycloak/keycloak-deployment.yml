@@ -13,7 +13,6 @@ spec:
     type: Recreate
   template:
     metadata:
-
       labels:
         app: keycloak
     spec:
@@ -36,9 +35,9 @@ spec:
               value: admin
             - name: KEYCLOAK_ADMIN_PASSWORD
               value: admin
-            - name: KEYCLOAK_IMPORT
-              value: /import/realm.json
-          image: quay.io/keycloak/keycloak:18.0.0
+            - name: KC_PROXY
+              value: edge
+          image: quay.io/keycloak/keycloak:20.0.5
           name: keycloak
           ports:
             - containerPort: 8080
@@ -67,20 +66,4 @@ spec:
     app: keycloak
 status:
   loadBalancer: {}
----
-#---
-#apiVersion: v1
-#kind: PersistentVolumeClaim
-#metadata:
-#  creationTimestamp: null
-#  labels:
-#    app: keycloak-claim0
-#  name: keycloak-claim0
-#spec:
-#  accessModes:
-#    - ReadWriteOnce
-#  resources:
-#    requests:
-#      storage: 100Mi
-#status: {}
 
