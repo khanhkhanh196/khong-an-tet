@@ -37,6 +37,12 @@ spec:
               value: admin
             - name: KC_PROXY
               value: edge
+            - name: KC_HTTP_RELATIVE_PATH
+              value: /keycloak
+            - name: KC_HOSTNAME_PATH
+              value: /keycloak
+            - name: KC_HOSTNAME
+              value: ingress.demo
           image: quay.io/keycloak/keycloak:20.0.5
           name: keycloak
           ports:

@@ -1,3 +1,5 @@
 # khong-an-tet
 
-Cài Kong trong minikube theo link: https://docs.konghq.com/kubernetes-ingress-controller/2.8.x/deployment/minikube/
+Enable ingress add on trên minikube 
+thêm vào file /etc/hosts:
+    <minikube ip>   ingress.demo
