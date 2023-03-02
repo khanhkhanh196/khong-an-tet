@@ -75,11 +75,11 @@ metadata:
   name: auth-ingress
 spec:
   rules:
-    - host: "auth.localtest.me"
+    - host: "keycloak"
       http:
         paths:
-          - pathType: Prefix
-            path: "/"
+          - path: "/"
+            pathType: Prefix
             backend:
               service:
                 name: keycloak

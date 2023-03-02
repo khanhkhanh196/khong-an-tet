@@ -1,0 +1,11 @@
+--drop table if exists `product`;
+--
+--create table `product` (
+--`id` int not null auto_increment,
+--`name` nvarchar(100),
+--`vendor` nvarchar(100) default null,
+--`manufactured_year` int default null,
+--`category_id` int,
+--
+--primary key (`product_id`)
+--) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
