@@ -33,26 +33,6 @@ public class LoginController {
     @Value("${keycloak.admin-cli.spring-boot-microservices-realm.client-secret}")
     private String clientSecret;
 
-    public String getAdminCliToken() throws JSONException {
-        String url = "/realms/spring-boot-microservices-realm//protocol/openid-connect/token";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("grant_type", "client_credentials");
-        map.add("client_id", "admin-cli");
-        map.add("client_secret", clientSecret);
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-
-        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-
-        String responseBody = response.getBody();
-        JSONObject jsonObj = new JSONObject(responseBody);
-        return jsonObj.getString("access_token");
-    }
-
     @GetMapping("/register-user")
     public ResponseEntity<String> registerUser(@RequestBody UserRegistration userRegistration) throws JSONException {
         String adminCliToken = getAdminCliToken();
@@ -105,4 +85,23 @@ public class LoginController {
         return new ResponseEntity<>("{\"access_token\": \"" + access_token + "\"}", HttpStatus.OK);
     }
 
+    public String getAdminCliToken() throws JSONException {
+        String url = "/realms/spring-boot-microservices-realm//protocol/openid-connect/token";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("grant_type", "client_credentials");
+        map.add("client_id", "admin-cli");
+        map.add("client_secret", clientSecret);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+
+        String responseBody = response.getBody();
+        JSONObject jsonObj = new JSONObject(responseBody);
+        return jsonObj.getString("access_token");
+    }
 }
