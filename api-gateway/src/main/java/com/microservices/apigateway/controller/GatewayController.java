@@ -13,3 +13,4 @@ public class GatewayController {
         return "Gateway alive";
     }
 }
+ 

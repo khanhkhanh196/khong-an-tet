@@ -18,10 +18,18 @@ spec:
     spec:
       containers:
         - env:
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres-order:5431/order-service
+            - name: DB_HOST
+              value: mysql
+            - name: DB_NAME
+              value: hb-order
+            - name: DB_USERNAME 
+              value: root
+            - name: MYSQL_ROOT_PASSWORD
+              value: "123456"
             - name: SPRING_PROFILES_ACTIVE
               value: docker
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3307/hb-order?useSSL=false
           image: order-service:latest
           name: order-service
           ports:
