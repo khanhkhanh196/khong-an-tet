@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: customer-service
+  name: customer-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer-service
+  strategy: {}
+  template:
+    metadata:
+
+      labels:
+        app: customer-service
+    spec:
+      containers:
+        - env:
+            - name: DB_HOST
+              value: mysql-customer
+            - name: DB_NAME
+              value: hb-customer
+            - name: DB_USERNAME 
+              value: root
+            - name: MYSQL_ROOT_PASSWORD
+              value: "123456"
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql-customer:3308/hb-customer?useSSL=false
+          image: customer-service:latest
+          name: customer-service
+          ports:
+            - containerPort: 9911
+          imagePullPolicy: Never
+          resources: {}
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: customer-service
+  name: customer-service
+spec:
+  ports:
+    - name: "90"
+      port: 90
+      targetPort: 9911
+  selector:
+    app: customer-service
+status:
+  loadBalancer: {}

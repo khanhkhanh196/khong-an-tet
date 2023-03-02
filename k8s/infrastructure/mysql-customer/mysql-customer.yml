@@ -20,10 +20,10 @@ spec:
         - name: mysql
           image: mysql:5.7
           ports:
-            - containerPort: 3306
+            - containerPort: 3308
           env:
             - name: MYSQL_DATABASE
-              value: hb-order
+              value: hb-customer
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -51,19 +51,27 @@ metadata:
   name: mysql-initdb-config
 data:
   init.sql: |
-    DROP SCHEMA IF EXISTS `hb-order`;
-    CREATE DATABASE IF NOT EXISTS `hb-order`;
-    USE `hb-order`;
-    DROP TABLE IF EXISTS `orders`;
-        create table `orders` (
-        `order_id` int not null auto_increment,
-        `cart_id` int,
-        `short_desc` nvarchar(100) default null,
-        `is_paid` boolean default null,
-        `total_price` double default null,
-    primary key (`order_id`)
+    DROP SCHEMA IF EXISTS `hb-customer`;
+    CREATE DATABASE IF NOT EXISTS `hb-customer`;
+    USE `hb-customer`;
+    DROP TABLE IF EXISTS `customers`;
+        create table `customers` (
+        `customer_id` int not null auto_increment,
+        `user_name` nvarchar(100) default null,
+        `phone_number` nvarchar(100) default null,
+    primary key (`customer_id`)
         ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-    INSERT INTO `orders` VALUES (1, 1, 'Abhijeet', false, 200.00);
+    INSERT INTO `customers` VALUES (0, 1, 'Abhijeet');
+     INSERT INTO `customers` VALUES (0, 1, 'Khanh');
+      INSERT INTO `customers` VALUES (0, 1, 'Dung');
+       INSERT INTO `customers` VALUES (0, 1, 'Hai');
+        INSERT INTO `customers` VALUES (0, 1, 'Duc');
+         INSERT INTO `customers` VALUES (0, 1, 'Ngoc');
+          INSERT INTO `customers` VALUES (0, 1, 'Ly');
+           INSERT INTO `customers` VALUES (0, 1, 'Vy');
+            INSERT INTO `customers` VALUES (0, 1, 'Thao');
+             INSERT INTO `customers` VALUES (0, 1, 'Mai');
+              INSERT INTO `customers` VALUES (0, 1, 'BBB');
 
 ---
 apiVersion: v1
@@ -81,8 +89,8 @@ metadata:
   name: mysql
 spec:
   ports:
-    - name: "3307"
-      port: 3307
-      targetPort: 3306
+    - name: "3308"
+      port: 3308
+      targetPort: 3308
   selector:
     app: mysql
