@@ -33,7 +33,8 @@ public class ProductService {
     public ProductResponse<ListProductDTO> findAllProducts(int page, int size, ProductDTO productDTO) {
         Pageable pageRequest = PageRequest.of(page, size);
         ListProductDTO dto;
-        if (Objects.isNull(productDTO) || (!Objects.isNull(productDTO) && Objects.isNull(productDTO.getName()) && Objects.isNull(productDTO.getVendor()) && Objects.isNull(productDTO.getManufacturedYear()))) {
+        if (Objects.isNull(productDTO) ||
+                (!Objects.isNull(productDTO) && Objects.isNull(productDTO.getName()) && Objects.isNull(productDTO.getVendor()) && Objects.isNull(productDTO.getManufacturedYear()) && Objects.isNull(productDTO.getCategoryId()))) {
             Page<Product> products = productRepository.findAll(pageRequest);
             dto = new ListProductDTO(products.getContent(), products.getTotalPages(), products.getNumber(),
                     products.getSize(), products.getTotalElements());
@@ -43,6 +44,7 @@ public class ProductService {
             String name = productDTO.getName();
             String vendor = productDTO.getVendor();
             int manufacturedYear = productDTO.getManufacturedYear();
+            int categoryId = productDTO.getCategoryId();
 
             List<Filter> filters = new ArrayList<>();
 
@@ -69,6 +71,14 @@ public class ProductService {
                         .value(String.valueOf(manufacturedYear))
                         .build();
                 filters.add(manufacturedYearLike);
+            }
+            if (categoryId > 0) {
+                Filter categoryIdLike = Filter.builder()
+                        .field("categoryId")
+                        .operator(QueryOperator.EQUALS)
+                        .value(String.valueOf(categoryId))
+                        .build();
+                filters.add(categoryIdLike);
             }
 
             List<Product> products = customProductRepository.getQueryResult(filters);

@@ -24,7 +24,7 @@ public class Product {
     @Column(name = "vendor")
     private String vendor;
     @Column(name = "category_id")
-    private int categoryId;
+    private Integer categoryId;
     @Column(name = "manufactured_year")
     private Integer manufacturedYear;
 
