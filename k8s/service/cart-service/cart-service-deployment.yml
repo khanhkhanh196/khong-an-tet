@@ -25,6 +25,8 @@ spec:
           image: cart-service:latest
           name: cart-service
           imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
           resources: {}
       restartPolicy: Always
 status: {}
@@ -39,7 +41,7 @@ spec:
   ports:
     - name: "80"
       port: 80
-      targetPort: 9191
+      targetPort: 8080
   selector:
     app: cart-service
 status:

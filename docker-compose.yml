@@ -1,10 +1,10 @@
 version: '3.7'
 services:
 #  postgres-order:
-#    container_name: postgres-order
+#    container_name: postgres-product
 #    image: postgres
 #    environment:
-#      POSTGRES_DB: order-service
+#      POSTGRES_DB: product-service
 #      POSTGRES_USER: postgres
 #      POSTGRES_PASSWORD: password
 #      PGDATA: /data/postgres
@@ -16,6 +16,24 @@ services:
 #      - "5431:5431"
 #    command: -p 5431
 #    restart: always
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    expose:
+      - "5050"
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    restart: unless-stopped
+
+volumes:
+  pgadmin:
 #
 #  postgres-cart:
 #    container_name: postgres-cart
@@ -75,26 +93,26 @@ services:
 #      - keycloak-mysql
 #
   ## Eureka Server
-  discovery-server:
-    image: discovery-server:latest
-    container_name: discovery-server
-    ports:
-      - "8761:8761"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-
-  api-gateway:
-    image: api-gateway:latest
-    container_name: api-gateway
-    ports:
-      - "8181:8080"
-    expose:
-      - "8181"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY= TRACE
-    depends_on:
-      - discovery-server
+#  discovery-server:
+#    image: discovery-server:latest
+#    container_name: discovery-server
+#    ports:
+#      - "8761:8761"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#
+#  api-gateway:
+#    image: api-gateway:latest
+#    container_name: api-gateway
+#    ports:
+#      - "8181:8080"
+#    expose:
+#      - "8181"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY= TRACE
+#    depends_on:
+#      - discovery-server
 #      - keycloak
 
 #  ## Product-Service Docker Compose Config

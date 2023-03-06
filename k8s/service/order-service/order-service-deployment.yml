@@ -35,6 +35,8 @@ spec:
           ports:
             - containerPort: 9193
           imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
           resources: {}
       restartPolicy: Always
 status: {}
@@ -49,7 +51,7 @@ spec:
   ports:
     - name: "80"
       port: 80
-      targetPort: 9193
+      targetPort: 8080
   selector:
     app: order-service
 status:

@@ -18,11 +18,15 @@ spec:
     spec:
       containers:
         - env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres-product:5431/product-service
             - name: SPRING_PROFILES_ACTIVE
               value: docker
           image: product-service:latest
           name: product-service
           imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
           resources: {}
       restartPolicy: Always
 status: {}
@@ -37,7 +41,7 @@ spec:
   ports:
     - name: "80"
       port: 80
-      targetPort: 9194
+      targetPort: 8080
   selector:
     app: product-service
 status:
