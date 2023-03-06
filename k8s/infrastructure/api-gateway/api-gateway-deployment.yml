@@ -26,7 +26,6 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
-            - containerPort: 8181
           resources: {}
       restartPolicy: Always
 status: {}
