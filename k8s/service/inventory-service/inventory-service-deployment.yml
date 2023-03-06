@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: inventory-service
+  name: inventory-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory-service
+  strategy: {}
+  template:
+    metadata:
+
+      labels:
+        app: inventory-service
+    spec:
+      containers:
+        - env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://postgres-inventory:3306/inventory-service
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
+          image: inventory-service:latest
+          name: inventory-service
+          imagePullPolicy: Never
+          resources: {}
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: inventory-service
+  name: inventory-service
+spec:
+  ports:
+    - name: "80"
+      port: 80
+      targetPort: 9192
+  selector:
+    app: inventory-service
+status:
+  loadBalancer: {}

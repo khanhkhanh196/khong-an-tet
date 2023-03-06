@@ -13,7 +13,6 @@ spec:
     type: Recreate
   template:
     metadata:
-
       labels:
         app: keycloak
     spec:
@@ -36,9 +35,15 @@ spec:
               value: admin
             - name: KEYCLOAK_ADMIN_PASSWORD
               value: admin
-            - name: KEYCLOAK_IMPORT
-              value: /import/realm.json
-          image: quay.io/keycloak/keycloak:18.0.0
+            - name: KC_PROXY
+              value: edge
+            - name: KC_HTTP_RELATIVE_PATH
+              value: /keycloak
+            - name: KC_HOSTNAME_PATH
+              value: /keycloak
+            - name: KC_HOSTNAME
+              value: ingress.demo
+          image: quay.io/keycloak/keycloak:20.0.5
           name: keycloak
           ports:
             - containerPort: 8080
@@ -67,36 +72,4 @@ spec:
     app: keycloak
 status:
   loadBalancer: {}
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: auth-ingress
-spec:
-  rules:
-    - host: "keycloak"
-      http:
-        paths:
-          - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: keycloak
-                port:
-                  number: 8080
-#---
-#apiVersion: v1
-#kind: PersistentVolumeClaim
-#metadata:
-#  creationTimestamp: null
-#  labels:
-#    app: keycloak-claim0
-#  name: keycloak-claim0
-#spec:
-#  accessModes:
-#    - ReadWriteOnce
-#  resources:
-#    requests:
-#      storage: 100Mi
-#status: {}
 
