@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-deployment
+  name: mysql-deployment # name of 'Deployment'
   labels:
     app: mysql
-spec:
+spec: #specific
   replicas: 1
-  selector:
+  selector: #select pods with label 'mysql'
     matchLabels:
       app: mysql
-  strategy:
-    type: Recreate
+  strategy: #strategy to use to replace existing pods with new ones.
+    type: Recreate #`"Recreate"` Kill all existing pods before creating new ones.
   template:
     metadata:
       labels:
-        app: mysql
+        app: mysql #pod's label
     spec:
       containers:
-        - name: mysql
-          image: mysql:5.7
+        - name: mysql # container's name
+          image: mysql:5.7 #docker image from dockerhub or local
           ports:
-            - containerPort: 3306
-          env:
+            - containerPort: 3306 # port which container is running on
+          env: #evironment variable
             - name: MYSQL_DATABASE
               value: hb-order
             - name: MYSQL_ROOT_PASSWORD
@@ -32,7 +32,7 @@ spec:
           volumeMounts:
             - name: mysql-initdb
               mountPath: /docker-entrypoint-initdb.d
-            - mountPath: /var/lib/mysql
+            - mountPath: /var/lib/mysqlmine
               subPath: mysql
               name: mysql-data
       volumes:
@@ -46,10 +46,10 @@ spec:
 
 ---
 apiVersion: v1
-kind: ConfigMap
+kind: ConfigMap #hold cconfiguration data for port to consume
 metadata:
   name: mysql-initdb-config
-data:
+data: #contain the configuration data
   init.sql: |
     DROP SCHEMA IF EXISTS `hb-order`;
     CREATE DATABASE IF NOT EXISTS `hb-order`;
@@ -78,11 +78,11 @@ stringData:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: mysql #define Service's name
 spec:
   ports:
     - name: "3307"
-      port: 3307
-      targetPort: 3306
+      port: 3307 #Port service is running on
+      targetPort: 3306 #port service send request to
   selector:
-    app: mysql
+    app: mysql #must match with pod at Deployment
