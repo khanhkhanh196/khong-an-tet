@@ -12,21 +12,21 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/cart")
+@RequestMapping("/api/carts")
 public class CartController {
     private final WebClient.Builder webClientBuilder;
 
-    @GetMapping("/test")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String getStatus() {
         return "Cart alive";
     }
 
-    @GetMapping("/test-client")
+    @GetMapping("/test")
     @ResponseStatus(HttpStatus.OK)
     public String getStatusFromOtherService() {
         webClientBuilder.build().get()
-                .uri("http://product-service/api/product")
+                .uri("http://product-service/api/products")
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
