@@ -20,7 +20,7 @@ spec:
         - name: mysql
           image: mysql:5.7
           ports:
-            - containerPort: 3306
+            - containerPort: 3307
           env:
             - name: MYSQL_DATABASE
               value: hb-order
@@ -83,6 +83,6 @@ spec:
   ports:
     - name: "3307"
       port: 3307
-      targetPort: 3306
+      targetPort: 3307
   selector:
     app: mysql

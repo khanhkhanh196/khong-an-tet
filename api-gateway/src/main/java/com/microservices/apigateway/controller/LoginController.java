@@ -104,4 +104,9 @@ public class LoginController {
         JSONObject jsonObj = new JSONObject(responseBody);
         return jsonObj.getString("access_token");
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "SUCCESS";
+    }
 }
