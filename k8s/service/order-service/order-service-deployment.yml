@@ -32,8 +32,6 @@ spec:
               value: jdbc:mysql://mysql:3307/hb-order?useSSL=false
           image: order-service:latest
           name: order-service
-          ports:
-            - containerPort: 9193
           imagePullPolicy: Never
           resources: {}
       restartPolicy: Always
