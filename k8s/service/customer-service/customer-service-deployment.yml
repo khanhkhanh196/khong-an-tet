@@ -12,7 +12,6 @@ spec:
   strategy: {}
   template:
     metadata:
-
       labels:
         app: customer-service
     spec:
@@ -29,8 +28,12 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: docker
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql-customer:3308/hb-customer?useSSL=false
+              value: jdbc:mysql://mysql-customer:3306/hb-customer?enabledTLSProtocols=TLSv1.2&useSSL=false
+              #value: jdbc:mysql://localhost:3306/hb-customer?enabledTLSProtocols=TLSv1.2&useSSL=false
           image: customer-service:latest
+          envFrom:
+            - configMapRef:
+                name: mongo-config
           name: customer-service
           ports:
             - containerPort: 9911
@@ -54,3 +57,18 @@ spec:
     app: customer-service
 status:
   loadBalancer: {}
+  
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-config
+data:
+    MONGO_HOST: 127.0.0.1
+    MONGO_DB: user-db
+    MONGO_AUTHEN_DB: admin
+    MONGO_USER: khanh
+    MONGO_PASSWORD: "123456"
+    MONGO_PORT: "27017"
+
+

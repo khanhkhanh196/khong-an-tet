@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-deployment
+  name: mysql-customer
   labels:
-    app: mysql
+    app: mysql-customer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql
+      app: mysql-customer
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: mysql
+        app: mysql-customer
     spec:
       containers:
-        - name: mysql
-          image: mysql:5.7
+        - name: mysql-customer
+          image: mysql:8.0.32
           ports:
             - containerPort: 3308
           env:
@@ -30,15 +30,15 @@ spec:
                   name: mysql-secrets
                   key: password
           volumeMounts:
-            - name: mysql-initdb
-              mountPath: /docker-entrypoint-initdb.d
-            - mountPath: /var/lib/mysql
-              subPath: mysql
+            - name: mysql-customer-initdb
+              mountPath: /mysql-initdatastorage
+            - mountPath: /var/lib/mysql-customer
+              subPath: mysql-customer
               name: mysql-data
       volumes:
-        - name: mysql-initdb
+        - name: mysql-customer-initdb
           configMap:
-            name: mysql-initdb-config
+            name: mysql-initdb-customer-config
         - name: mysql-data
           persistentVolumeClaim:
             claimName: mysql-data-space
@@ -48,7 +48,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mysql-initdb-config
+  name: mysql-initdb-customer-config
 data:
   init.sql: |
     DROP SCHEMA IF EXISTS `hb-customer`;
@@ -86,11 +86,11 @@ stringData:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: mysql-customer
 spec:
   ports:
-    - name: "3308"
-      port: 3308
+    - name: "3306"
+      port: 3306
       targetPort: 3308
   selector:
-    app: mysql
+    app: mysql-customer
